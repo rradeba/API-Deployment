@@ -1,9 +1,11 @@
 from flask import Blueprint, jsonify
 from sqlalchemy.exc import SQLAlchemyError
 from models.sum import Sum
+from schemas.sum_schema import SumSchema 
 
 
 sum_bp = Blueprint('sum_bp', __name__)
+sums_schema = SumSchema(many=True)
 
 @sum_bp.route('/sum/result/<int:result_value>', methods=['GET'])
 def get_sums_by_result(result_value):
