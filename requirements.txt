@@ -1,5 +1,8 @@
-Flask==3.0.3
-Flask-SQLAlchemy==2.5.1
+
+Flask>=2.0.0,<3.0.0
+Flask-SQLAlchemy>=2.5.0,<3.0.0
+Flask-Marshmallow
+python-dotenv
 Flask-Migrate==3.1.0
 Gunicorn==23.0.0
 Flask-CORS==3.0.10
@@ -7,5 +10,7 @@ Flask-Testing==0.8.1
 pytest==8.3.3
 requests==2.32.3
 marshmallow==3.20.1
-flask-marshmallow==0.15.0  
-python-dotenv==1.0.0       
+
+      
+
+
