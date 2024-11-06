@@ -1,13 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow 
-from config import Config
-from routes.sum_routes import sum_bp
+from app.config import Config
+from app.sum_routes import sum_bp
 from dotenv import load_dotenv
 
 
 db = SQLAlchemy()
 ma = Marshmallow() 
+load_dotenv() 
+
 
 def create_app():
     app = Flask(__name__)
@@ -16,8 +18,7 @@ def create_app():
   
     db.init_app(app)
     ma.init_app(app)
-    load_dotenv() 
-
+  
     
     with app.app_context():
         db.create_all()

@@ -27,6 +27,9 @@ jobs:
         run: |
           pytest tests/  # Adjust if tests are in a different directory
 
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
+
       - name: Deploy to Render
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

@@ -1,5 +1,5 @@
 from flask_marshmallow import Marshmallow
-from models.sum import Sum
+from app.sum import Sum
 
 ma = Marshmallow()
 

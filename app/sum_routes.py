@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from sqlalchemy.exc import SQLAlchemyError
-from models.sum import Sum
-from schemas.sum_schema import SumSchema 
+from app.sum import Sum
+from app.sum_schema import SumSchema 
 
 
 sum_bp = Blueprint('sum_bp', __name__)
