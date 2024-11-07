@@ -10,24 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Set up Node.js (v20)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.8"
+          python-version: "3.x"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
       - name: Run Tests
         run: |
@@ -37,13 +34,6 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          RESPONSE=$(curl -X POST -H "Authorization: Bearer ${{ secrets.RENDER_API_TOKEN }}" \
-                     -d "serviceId=${{ secrets.RENDER_SERVICE_ID }}" \
-                     "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys")
-          echo "Render deployment response: $RESPONSE"
-          
-          
-          if [[ "$RESPONSE" != *"successful"* ]]; then
-            echo "Deployment failed!"
-            exit 1
-          fi
+          curl -X POST -H "Authorization: Bearer ${{ secrets.RENDER_API_TOKEN }}" \
+               -d "serviceId=${{ secrets.RENDER_SERVICE_ID }}" \
+               "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"

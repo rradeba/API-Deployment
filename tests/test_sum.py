@@ -12,5 +12,7 @@ def client():
 
 def test_get_sums_by_invalid_result(client):
     response = client.get('/sum/result/not_an_int')  
+    print(response.data)  
+    print(response.status_code)  
     assert response.status_code == 404 or response.status_code == 400
     assert 'error' in response.get_json()
