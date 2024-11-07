@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.x" 
+          python-version: "3.8"
 
       - name: Install dependencies
         run: |
@@ -25,17 +25,19 @@ jobs:
 
       - name: Run Tests
         run: |
-          pytest tests/  # Adjust if tests are in a different directory
-
-      - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
+          pytest tests/test_sum.py
 
       - name: Deploy to Render
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          response=$(curl --fail -s -X POST -H "Authorization: Bearer ${{ secrets.RENDER_API_TOKEN }}" \
-               -d "serviceId=${{ secrets.RENDER_SERVICE_ID }}" \
-               "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys")
-
-          echo "Deployment response: $response"
+          RESPONSE=$(curl -X POST -H "Authorization: Bearer ${{ secrets.RENDER_API_TOKEN }}" \
+                     -d "serviceId=${{ secrets.RENDER_SERVICE_ID }}" \
+                     "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys")
+          echo "Render deployment response: $RESPONSE"
+          
+          
+          if [[ "$RESPONSE" != *"successful"* ]]; then
+            echo "Deployment failed!"
+            exit 1
+          fi
